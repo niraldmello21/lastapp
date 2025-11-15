@@ -15,7 +15,7 @@ func = st.text_input("Function f(x):", value="sin(x)")
 x_min = st.number_input("X-axis minimum:", value=-10.0)
 x_max = st.number_input("X-axis maximum:", value=10.0)
 
-# Safe allowed math functions
+# Allowed math functions
 allowed = {k: getattr(math, k) for k in dir(math) if not k.startswith("__")}
 allowed["np"] = np
 
@@ -24,13 +24,13 @@ if st.button("Plot"):
     try:
         x = np.linspace(x_min, x_max, 500)
 
-        # Safe evaluation of function
+        # Safe evaluation
         y = eval(func, {"__builtins__": {}}, {**allowed, "x": x})
 
-        # Plot
+        # Plotting
         fig, ax = plt.subplots()
         ax.plot(x, y)
-        ax.set_title(f"Graph of f(x) = {func}")
+        ax.set_title(f"f(x) = {func}")
         ax.set_xlabel("x")
         ax.set_ylabel("f(x)")
         ax.grid(True)
@@ -38,4 +38,4 @@ if st.button("Plot"):
         st.pyplot(fig)
 
     except Exception as e:
-        st.error(f"Error in function: {e}")
+        st.error(f"Error: {e}")
